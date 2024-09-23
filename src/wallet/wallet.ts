@@ -1,40 +1,31 @@
 import * as grpc from '@grpc/grpc-js';
-import * as protoLoader from '@grpc/proto-loader';
 
-const packageDefinition = protoLoader.loadSync('../proto/wallet.proto', {});
-const walletProto = grpc.loadPackageDefinition(packageDefinition).pactus as any;
-
-// Create a gRPC client
-const client = new walletProto.Wallet(
-  'localhost:50051',
-  grpc.credentials.createInsecure()
-);
+interface CreateWalletResponse {
+  message?: string;
+}
 
 interface CreateWalletRequest {
-  name: string;
-  password: string;
+  name?: string;
+  password?: string;
 }
 
 /**
- * CreateWallet - Calls the SayHello method of the ExampleService.
- * @param {string} name - The name to include in the greeting.
+ * CreateWallet - Calls the CreateWallet method of the WalletService.
+ * @param client - grpc client
+ * @param {string} name - The name of wallet.
  * @param {string} password - The password to secure the wallet.
- * @returns {Promise<string>} - A promise that resolves with the greeting message.
+ * @returns {Promise<string>} - A promise that resolves with the CreateWallet message.
  */
-function CreateWallet({name, password}: CreateWalletRequest) {
+const CreateWallet = (client: any, name: string, password: string): Promise<string> => {
   return new Promise((resolve, reject) => {
-    const request = { name: name, password: password};
-
-    client.CreateWallet(request, (error, response) => {
+    const request: CreateWalletRequest = { name, password};
+    client.CreateWallet(request,  (error: grpc.ServiceError | null, response: CreateWalletResponse) =>  {
       if (error) {
         return reject(error);
       }
-      resolve(response.message);
+      resolve(response?.message || "No message received");
     });
   });
 }
 
-// Export the methods as part of the SDK
-module.exports = {
-  CreateWallet,
-};
+export default CreateWallet
