@@ -6,8 +6,6 @@ package pactus;
 option go_package = "github.com/pactus-project/pactus/www/grpc/pactus";
 option java_package = "pactus.wallet";
 
-import "transaction.proto";
-
 // Define the Wallet service with various RPC methods for wallet management.
 service Wallet {
   // CreateWallet creates a new wallet with the specified parameters.

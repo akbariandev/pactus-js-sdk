@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "allowJs": false,
+    "checkJs": false,
     "target": "ESNext",      // or "ES6" / "ES2015", depending on your target environment
     "module": "ESNext",      // This enables ES Module syntax
     "moduleResolution": "Node", // Use Node's module resolution strategy
@@ -10,6 +12,13 @@
     "skipLibCheck": true,    // Optional: Skips type checking of declaration files to speed up the build
     "forceConsistentCasingInFileNames": true // Optional: Disallow inconsistencies in file name casing
   },
-  "include": ["src/**/*"],    // Specify the source files to include
-  "exclude": ["node_modules"] // Exclude node_modules from the compilation
+  "include": [
+    "src/**/*",
+    "src/proto/gen/**/*"
+  ],
+  "exclude": ["node_modules"],
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
+  }
 }

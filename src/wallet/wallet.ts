@@ -1,29 +1,22 @@
 import * as grpc from '@grpc/grpc-js';
-
-interface CreateWalletResponse {
-  message?: string;
-}
-
-interface CreateWalletRequest {
-  name?: string;
-  password?: string;
-}
+import {pactus} from "../proto/gen/wallet";
+import { CallOptions } from "@grpc/grpc-js/build/src/client";
 
 /**
  * CreateWallet - Calls the CreateWallet method of the WalletService.
  * @param client - grpc client
- * @param {string} name - The name of wallet.
- * @param {string} password - The password to secure the wallet.
+ * @param request
  * @returns {Promise<string>} - A promise that resolves with the CreateWallet message.
  */
-const CreateWallet = (client: any, name: string, password: string): Promise<string> => {
+const CreateWallet = (client: pactus.WalletClient,  request: pactus.CreateWalletRequest): Promise<string> => {
   return new Promise((resolve, reject) => {
-    const request: CreateWalletRequest = { name, password};
-    client.CreateWallet(request,  (error: grpc.ServiceError | null, response: CreateWalletResponse) =>  {
-      if (error) {
-        return reject(error);
+    const metaData = new grpc.Metadata({})
+    const options: CallOptions = {}
+    client.CreateWallet(request, metaData, options,(err, response) =>  {
+      if (err != null) {
+        return reject(err);
       }
-      resolve(response?.message || "No message received");
+      resolve(response?.mnemonic || "no response");
     });
   });
 }

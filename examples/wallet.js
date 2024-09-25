@@ -1,9 +1,8 @@
 import GRPCServiceClient from '../dist/grpc.js';
 
 const clientOptions = {
-    address: 'bootstrap1.pactus.org:50051',
+    address: 'bootstrap2.pactus.org:50051',
 };
-
 const client = new GRPCServiceClient(clientOptions);
 
 async function main() {
