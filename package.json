@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc && tsc-alias",
-    "lint": "next lint"
+    "build-ts": "tsc && tsc-alias",
+    "build-proto": "protoc --ts_out=./src/rpc/gen --proto_path=./src/rpc/proto network.proto"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.11.3",

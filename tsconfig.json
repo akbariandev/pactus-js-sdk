@@ -14,7 +14,7 @@
   },
   "include": [
     "src/**/*",
-    "src/proto/gen/**/*"
+    "src/rpc/gen/**/*"
   ],
   "exclude": ["node_modules"],
   "tsc-alias": {

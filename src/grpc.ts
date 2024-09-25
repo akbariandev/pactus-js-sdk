@@ -1,32 +1,31 @@
 import * as grpc from '@grpc/grpc-js';
-import {pactus} from "./proto/gen/wallet";
-import CreateWallet from "./wallet/wallet";
+import {pactus} from "./rpc/gen/network";
+import GetNetWorkInfo from "./network/info";
 
 interface GRPCServiceOptions {
     address: string;
 }
 
 class GRPCServiceClient {
-    private walletClient: pactus.WalletClient;
+    private networkClient: pactus.NetworkClient;
 
     constructor(options: GRPCServiceOptions) {
         const {address} = options;
 
-        this.walletClient = new pactus.WalletClient(
+        this.networkClient = new pactus.NetworkClient(
             address,
             grpc.credentials.createInsecure()
         );
     }
 
     /**
-     * CreateWallet - Calls the CreateWallet method of the WalletService.
-     * @returns {Promise<string>} - A promise that resolves with the CreateWallet message.
-     * @param wallet_name
-     * @param password
+     * GetNetWorkInfo - Calls the GetNetWorkInfo method of the NetworkService.
+     * @returns {Promise<GetNetworkInfoResponse>} - A promise that resolves with the GetNetWorkInfo response.
+     * @param only_connected indicates that info must be based on connected peers or whole network
      */
-    public CreateWallet(wallet_name: string, password: string): Promise<string> {
-        const request = new pactus.CreateWalletRequest({wallet_name, password});
-        return CreateWallet(this.walletClient, request);
+    public GetNetWorkInfo(only_connected: boolean): Promise<pactus.GetNetworkInfoResponse> {
+        const request = new pactus.GetNetworkInfoRequest({only_connected});
+        return GetNetWorkInfo(this.networkClient, request);
     }
 }
 
